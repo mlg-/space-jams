@@ -8,17 +8,15 @@ class Album
     @tracks = tracks
   end
 
-  def all_tracks
-    title_array = []
+  def compile_track_titles
     tracks.map do |track|
-      title_array << track.title
+      track.title
     end
-    title_array
   end
 
   def summary
-    summary =  "Name: #{title} \nArtists: #{artists}\n #{album_length} \nTracks:\n"
-    all_tracks.each do |track|
+    summary = "Name: #{title}\n Artists: #{artists}\n Duration(min): #{album_length}\n Tracks:\n"
+    compile_track_titles.each do |track|
         summary += "- #{track}\n"
       end
     summary += "\n"
@@ -26,7 +24,6 @@ class Album
   end
 
   def album_length
-    length = "Duration (min.): "
     track_lengths_ms = []
     tracks.map do |track|
       track_lengths_ms << track.duration
@@ -36,7 +33,7 @@ class Album
       track_time = track.to_f / 60000.0
       track_lengths_min << track_time.round(2)
     end
-    length += track_lengths_min.reduce(:+).round(2).to_s
+    length = track_lengths_min.reduce(:+).round(2).to_s
   end
 end
 
